@@ -1,0 +1,3038 @@
+[
+    {
+        "model": "airmusic.color",
+        "pk": 1,
+        "fields": {
+            "col": "BLUE"
+        }
+    },
+    {
+        "model": "airmusic.color",
+        "pk": 2,
+        "fields": {
+            "col": "GREEN"
+        }
+    },
+    {
+        "model": "airmusic.color",
+        "pk": 3,
+        "fields": {
+            "col": "YELLOW"
+        }
+    },
+    {
+        "model": "airmusic.color",
+        "pk": 4,
+        "fields": {
+            "col": "PINK"
+        }
+    },
+    {
+        "model": "airmusic.color",
+        "pk": 5,
+        "fields": {
+            "col": "TEAL"
+        }
+    },
+    {
+        "model": "airmusic.color",
+        "pk": 6,
+        "fields": {
+            "col": "BLACK"
+        }
+    },
+    {
+        "model": "airmusic.color",
+        "pk": 7,
+        "fields": {
+            "col": "GREY"
+        }
+    },
+    {
+        "model": "airmusic.color",
+        "pk": 8,
+        "fields": {
+            "col": "ORANGE"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 1,
+        "fields": {
+            "function": "album(album_id)",
+            "parameters": "album_id - the album ID, URI or URL",
+            "use": "returns a single album given the album’s ID, URIs or URL",
+            "json": "This is empty, please add something :3",
+            "color": 1,
+            "code": "# shows album info for a URN or URL\r\n\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport spotipy\r\nimport sys\r\nfrom pprint import pprint\r\n\r\nif len(sys.argv) > 1:\r\n    urn = sys.argv[1]\r\nelse:\r\n    urn = 'spotify:album:5yTx83u3qerZF7GRJu7eFk'\r\n\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())\r\nalbum = sp.album(urn)\r\npprint(album)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 2,
+        "fields": {
+            "function": "album_tracks(album_id, limit=50, offset=0)",
+            "parameters": "album_id - the album ID, URI or URL\r\nlimit - the number of items to return\r\noffset - the index of the first item to return",
+            "use": "Get Spotify catalog information about an album’s tracks",
+            "json": "This is empty, please add something, hello",
+            "color": 1,
+            "code": "def show_album_tracks(album):\r\n    tracks = []\r\n    results = sp.album_tracks(album['id'])\r\n    tracks.extend(results['items'])\r\n    while results['next']:\r\n        results = sp.next(results)\r\n        tracks.extend(results['items'])\r\n    for i, track in enumerate(tracks):\r\n        logger.info('%s. %s', i+1, track['name'])"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 3,
+        "fields": {
+            "function": "artist(artist_id)",
+            "parameters": "artist_id - an artist ID, URI or URL",
+            "use": "returns a single artist given the artist’s ID, URI or URL",
+            "json": "This is empty, please add something",
+            "color": 2,
+            "code": "# shows artist info for a URN or URL\r\n\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport spotipy\r\nimport sys\r\nfrom pprint import pprint\r\n\r\nif len(sys.argv) > 1:\r\n    urn = sys.argv[1]\r\nelse:\r\n    urn = 'spotify:artist:3jOstUTkEu2JkjvRdBA5Gu'\r\n\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())\r\n\r\nartist = sp.artist(urn)\r\npprint(artist)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 4,
+        "fields": {
+            "function": "artist_albums(artist_id, album_type=None, country=None, limit=20, offset=0)",
+            "parameters": "artist_id - the artist ID, URI or URL\r\nalbum_type - ‘album’, ‘single’, ‘appears_on’, ‘compilation’\r\ncountry - limit the response to one particular country.\r\nlimit - the number of albums to return\r\noffset - the index of the first album to return",
+            "use": "Get Spotify catalog information about an artist’s albums",
+            "json": "This is empty, please add something, :0",
+            "color": 2,
+            "code": "def show_artist_albums(artist):\r\n    albums = []\r\n    results = sp.artist_albums(artist['id'], album_type='album')\r\n    albums.extend(results['items'])\r\n    while results['next']:\r\n        results = sp.next(results)\r\n        albums.extend(results['items'])\r\n    seen = set()  # to avoid dups\r\n    albums.sort(key=lambda album: album['name'].lower())\r\n    for album in albums:\r\n        name = album['name']\r\n        if name not in seen:\r\n            logger.info('ALBUM: %s', name)\r\n            seen.add(name)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 5,
+        "fields": {
+            "function": "albums(albums)",
+            "parameters": "albums - a list of album IDs, URIs or URLs",
+            "use": "returns a list of albums given the album IDs, URIs, or URLs",
+            "json": "This is empty, please add something",
+            "color": 1,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 6,
+        "fields": {
+            "function": "artist_related_artists(artist_id)",
+            "parameters": "artist_id - the artist ID, URI or URL",
+            "use": "Get Spotify catalog information about artists similar to an identified artist. Similarity is based on analysis of the Spotify community’s listening history.",
+            "json": "This is empty, please add something",
+            "color": 2,
+            "code": "# shows related artists for the given seed artist\r\n\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport spotipy\r\nimport sys\r\n\r\nif len(sys.argv) > 1:\r\n    artist_name = sys.argv[1]\r\nelse:\r\n    artist_name = 'weezer'\r\n\r\nclient_credentials_manager = SpotifyClientCredentials()\r\nsp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)\r\nresult = sp.search(q='artist:' + artist_name, type='artist')\r\ntry:\r\n    name = result['artists']['items'][0]['name']\r\n    uri = result['artists']['items'][0]['uri']\r\n\r\n    related = sp.artist_related_artists(uri)\r\n    print('Related artists for', name)\r\n    for artist in related['artists']:\r\n        print('  ', artist['name'])\r\nexcept BaseException:\r\n    print(\"usage show_related.py [artist-name]\")"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 7,
+        "fields": {
+            "function": "artist_top_tracks(artist_id, country='US')",
+            "parameters": "artist_id - the artist ID, URI or URL\r\ncountry - limit the response to one particular country.",
+            "use": "Get Spotify catalog information about an artist’s top 10 tracks by country.",
+            "json": "This is empty, please add something",
+            "color": 2,
+            "code": "# shows artist info for a URN or URL\r\n\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport spotipy\r\nimport sys\r\n\r\nif len(sys.argv) > 1:\r\n    urn = sys.argv[1]\r\nelse:\r\n    urn = 'spotify:artist:3jOstUTkEu2JkjvRdBA5Gu'\r\n\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())\r\nresponse = sp.artist_top_tracks(urn)\r\n\r\nfor track in response['tracks']:\r\n    print(track['name'])"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 8,
+        "fields": {
+            "function": "artists(artists)",
+            "parameters": "artists - a list of artist IDs, URIs or URLs",
+            "use": "returns a list of artists given the artist IDs, URIs, or URLs",
+            "json": "This is empty, please add something",
+            "color": 2,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 9,
+        "fields": {
+            "function": "audio_analysis(track_id)",
+            "parameters": "track_id - a track URI, URL or ID",
+            "use": "Get audio analysis for a track based upon its Spotify ID",
+            "json": "This is empty, please add something",
+            "color": 3,
+            "code": "# shows audio analysis for the given track\r\n\r\nfrom __future__ import print_function    # (at top of module)\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport json\r\nimport spotipy\r\nimport time\r\nimport sys\r\n\r\n\r\nclient_credentials_manager = SpotifyClientCredentials()\r\nsp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)\r\n\r\nif len(sys.argv) > 1:\r\n    tid = sys.argv[1]\r\nelse:\r\n    tid = 'spotify:track:4TTV7EcfroSLWzXRY6gLv6'\r\n\r\nstart = time.time()\r\nanalysis = sp.audio_analysis(tid)\r\ndelta = time.time() - start\r\nprint(json.dumps(analysis, indent=4))\r\nprint(\"analysis retrieved in %.2f seconds\" % (delta,))"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 10,
+        "fields": {
+            "function": "audio_features(tracks=[])",
+            "parameters": "tracks - a list of track URIs, URLs or IDs, maximum: 50 ids",
+            "use": "Get audio features for one or multiple tracks based upon their Spotify IDs Parameters:",
+            "json": "This is empty, please add something",
+            "color": 3,
+            "code": "# shows acoustic features for tracks for the given artist\r\n\r\nfrom __future__ import print_function    # (at top of module)\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport json\r\nimport spotipy\r\nimport time\r\nimport sys\r\n\r\n\r\nclient_credentials_manager = SpotifyClientCredentials()\r\nsp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)\r\nsp.trace = False\r\n\r\nif len(sys.argv) > 1:\r\n    artist_name = ' '.join(sys.argv[1:])\r\nelse:\r\n    artist_name = 'weezer'\r\n\r\nresults = sp.search(q=artist_name, limit=50)\r\ntids = []\r\nfor i, t in enumerate(results['tracks']['items']):\r\n    print(' ', i, t['name'])\r\n    tids.append(t['uri'])\r\n\r\nstart = time.time()\r\nfeatures = sp.audio_features(tids)\r\ndelta = time.time() - start\r\nfor feature in features:\r\n    print(json.dumps(feature, indent=4))\r\n    print()\r\n    analysis = sp._get(feature['analysis_url'])\r\n    print(json.dumps(analysis, indent=4))\r\n    print()\r\nprint(\"features retrieved in %.2f seconds\" % (delta,))"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 11,
+        "fields": {
+            "function": "categories(country=None, locale=None, limit=20, offset=0)",
+            "parameters": "country - An ISO 3166-1 alpha-2 country code.\r\nlocale - The desired language, consisting of an ISO 639 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore.\r\nlimit - The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50\r\noffset - The index of the first item to return. Default: 0 (the first object). Use with limit to get the next set of items.",
+            "use": "Get a list of new album releases featured in Spotify",
+            "json": "This is empty, please add something",
+            "color": 1,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 12,
+        "fields": {
+            "function": "category_playlists(category_id=None, country=None, limit=20, offset=0)",
+            "parameters": "category_id - The Spotify category ID for the category.\r\ncountry - An ISO 3166-1 alpha-2 country code.\r\nlimit - The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50\r\noffset - The index of the first item to return. Default: 0 (the first object). Use with limit to get the next set of items.",
+            "use": "Get a list of new album releases featured in Spotify",
+            "json": "This is empty, please add something",
+            "color": 1,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 13,
+        "fields": {
+            "function": "current_playback(market=None)",
+            "parameters": "market - an ISO 3166-1 alpha-2 country code.",
+            "use": "Get information about user’s current playback.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 14,
+        "fields": {
+            "function": "current_user()",
+            "parameters": "NA",
+            "use": "Get detailed profile information about the current user. An alias for the ‘me’ method.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "def current_user():\r\n    cache_handler = spotipy.cache_handler.CacheFileHandler(cache_path=session_cache_path())\r\n    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)\r\n    if not auth_manager.validate_token(cache_handler.get_cached_token()):\r\n        return redirect('/')\r\n    spotify = spotipy.Spotify(auth_manager=auth_manager)\r\n    return spotify.current_user()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 15,
+        "fields": {
+            "function": "current_user_followed_artists(limit=20, after=None)",
+            "parameters": "limit - the number of artists to return\r\nafter - the last artist ID retrieved from the previous\r\nrequest",
+            "use": "Gets a list of the artists followed by the current authorized user",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 16,
+        "fields": {
+            "function": "current_user_playing_track()",
+            "parameters": "NA",
+            "use": "Get information about the current users currently playing track.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "def currently_playing():\r\n    cache_handler = spotipy.cache_handler.CacheFileHandler(cache_path=session_cache_path())\r\n    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)\r\n    if not auth_manager.validate_token(cache_handler.get_cached_token()):\r\n        return redirect('/')\r\n    spotify = spotipy.Spotify(auth_manager=auth_manager)\r\n    track = spotify.current_user_playing_track()\r\n    if not track is None:\r\n        return track\r\n    return \"No track currently playing.\""
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 17,
+        "fields": {
+            "function": "current_user_playlists(limit=50, offset=0)",
+            "parameters": "limit - the number of items to return\r\noffset - the index of the first item to return",
+            "use": "Get current user playlists without required getting his profile Parameters:",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Shows a user's playlists\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nscope = 'playlist-read-private'\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\nresults = sp.current_user_playlists(limit=50)\r\nfor i, item in enumerate(results['items']):\r\n    print(\"%d %s\" % (i, item['name']))"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 18,
+        "fields": {
+            "function": "current_user_recently_played(limit=50)",
+            "parameters": "limit - the number of entities to return",
+            "use": "Get the current user’s recently played tracks",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 19,
+        "fields": {
+            "function": "current_user_saved_albums(limit=20, offset=0)",
+            "parameters": "limit - the number of albums to return\r\noffset - the index of the first album to return",
+            "use": "Gets a list of the albums saved in the current authorized user’s “Your Music” library",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 20,
+        "fields": {
+            "function": "current_user_saved_albums_add(albums=[])",
+            "parameters": "albums - a list of album URIs, URLs or IDs",
+            "use": "Add one or more albums to the current user’s “Your Music” library. Parameters:",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "import argparse\r\nimport logging\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nlogger = logging.getLogger('examples.add_a_saved_album')\r\nlogging.basicConfig(level='DEBUG')\r\n\r\nscope = 'user-library-modify'\r\n\r\n\r\ndef get_args():\r\n    parser = argparse.ArgumentParser(description='Creates a playlist for user')\r\n    parser.add_argument('-a', '--aids', action='append',\r\n                        required=True, help='Album ids')\r\n    return parser.parse_args()\r\n\r\n\r\ndef main():\r\n    args = get_args()\r\n    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n    sp.current_user_saved_albums_add(albums=args.aids)\r\n\r\n\r\nif __name__ == '__main__':\r\n    main()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 21,
+        "fields": {
+            "function": "current_user_saved_albums_contains(albums=[])",
+            "parameters": "albums - a list of album URIs, URLs or IDs",
+            "use": "Check if one or more albums is already saved in the current Spotify user’s “Your Music” library.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 22,
+        "fields": {
+            "function": "current_user_saved_albums_delete(albums=[])",
+            "parameters": "albums - a list of album URIs, URLs or IDs",
+            "use": "Remove one or more albums from the current user’s “Your Music” library.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Deletes user saved album\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nscope = 'user-library-modify'\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\nuris = input(\"input a list of album URIs, URLs or IDs: \")\r\nuris = list(map(str, uris.split()))\r\ndeleted = sp.current_user_saved_albums_delete(uris)\r\nprint(\"Deletion successful.\")"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 23,
+        "fields": {
+            "function": "current_user_saved_tracks(limit=20, offset=0)",
+            "parameters": "limit - the number of tracks to return\r\noffset - the index of the first track to return",
+            "use": "Gets a list of the tracks saved in the current authorized user’s “Your Music” library",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Shows a user's saved tracks (need to be authenticated via oauth)\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nscope = 'user-library-read'\r\n\r\n\r\ndef show_tracks(results):\r\n    for item in results['items']:\r\n        track = item['track']\r\n        print(\"%32.32s %s\" % (track['artists'][0]['name'], track['name']))\r\n\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\nresults = sp.current_user_saved_tracks()\r\nshow_tracks(results)\r\n\r\nwhile results['next']:\r\n    results = sp.next(results)\r\n    show_tracks(results)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 24,
+        "fields": {
+            "function": "current_user_saved_tracks_add(tracks=None)",
+            "parameters": "tracks - a list of track URIs, URLs or IDs",
+            "use": "Add one or more tracks to the current user’s “Your Music” library.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "import argparse\r\nimport logging\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nscope = 'user-library-modify'\r\n\r\nlogger = logging.getLogger('examples.add_a_saved_track')\r\nlogging.basicConfig(level='DEBUG')\r\n\r\n\r\ndef get_args():\r\n    parser = argparse.ArgumentParser(description='Add tracks to Your '\r\n                                     'Collection of saved tracks')\r\n    parser.add_argument('-t', '--tids', action='append',\r\n                        required=True, help='Track ids')\r\n    return parser.parse_args()\r\n\r\n\r\ndef main():\r\n    args = get_args()\r\n    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\n    sp.current_user_saved_tracks_add(tracks=args.tids)\r\n\r\n\r\nif __name__ == '__main__':\r\n    main()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 25,
+        "fields": {
+            "function": "current_user_saved_tracks_contains(tracks=None)",
+            "parameters": "tracks - a list of track URIs, URLs or IDs",
+            "use": "Check if one or more tracks is already saved in the current Spotify user’s “Your Music” library.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Prints whether a track exists in your collection of saved tracks\r\n\r\nimport pprint\r\nimport sys\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nscope = 'user-library-read'\r\n\r\nif len(sys.argv) > 1:\r\n    tid = sys.argv[1]\r\nelse:\r\n    print(\"Usage: %s track-id ...\" % (sys.argv[0],))\r\n    sys.exit()\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\nresults = sp.current_user_saved_tracks_contains(tracks=[tid])\r\npprint.pprint(results)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 26,
+        "fields": {
+            "function": "current_user_saved_tracks_delete(tracks=None)",
+            "parameters": "tracks - a list of track URIs, URLs or IDs",
+            "use": "Remove one or more tracks from the current user’s “Your Music” library.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Delete a track from 'Your Collection' of saved tracks\r\n\r\nimport pprint\r\nimport sys\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nscope = 'user-library-modify'\r\n\r\nif len(sys.argv) > 1:\r\n    tid = sys.argv[1]\r\nelse:\r\n    print(\"Usage: %s track-id ...\" % (sys.argv[0],))\r\n    sys.exit()\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\nresults = sp.current_user_saved_tracks_delete(tracks=[tid])\r\npprint.pprint(results)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 27,
+        "fields": {
+            "function": "current_user_top_artists(limit=20, offset=0, time_range='medium_term')",
+            "parameters": "limit - the number of entities to return\r\noffset - the index of the first entity to return\r\ntime_range - Over what time frame are the affinities computed Valid-values: short_term, medium_term, long_term",
+            "use": "Get the current user’s top artists",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Shows the top artists for a user\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nscope = 'user-top-read'\r\nranges = ['short_term', 'medium_term', 'long_term']\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\nfor sp_range in ['short_term', 'medium_term', 'long_term']:\r\n    print(\"range:\", sp_range)\r\n\r\n    results = sp.current_user_top_artists(time_range=sp_range, limit=50)\r\n\r\n    for i, item in enumerate(results['items']):\r\n        print(i, item['name'])\r\n    print()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 28,
+        "fields": {
+            "function": "current_user_top_tracks(limit=20, offset=0, time_range='medium_term')",
+            "parameters": "limit - the number of entities to return\r\noffset - the index of the first entity to return\r\ntime_range - Over what time frame are the affinities computed Valid-values: short_term, medium_term, long_term",
+            "use": "Get the current user’s top tracks",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Shows the top tracks for a user\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nscope = 'user-top-read'\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\nranges = ['short_term', 'medium_term', 'long_term']\r\n\r\nfor sp_range in ranges:\r\n    print(\"range:\", sp_range)\r\n    results = sp.current_user_top_tracks(time_range=sp_range, limit=50)\r\n    for i, item in enumerate(results['items']):\r\n        print(i, item['name'], '//', item['artists'][0]['name'])\r\n    print()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 29,
+        "fields": {
+            "function": "currently_playing(market=None)",
+            "parameters": "market - an ISO 3166-1 alpha-2 country code.",
+            "use": "Get user’s currently playing track.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 30,
+        "fields": {
+            "function": "devices()",
+            "parameters": "NA",
+            "use": "Get a list of user’s available devices.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "import spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\nfrom pprint import pprint\r\nfrom time import sleep\r\n\r\nscope = \"user-read-playback-state,user-modify-playback-state\"\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyOAuth(scope=scope))\r\n\r\n# Shows playing devices\r\nres = sp.devices()\r\npprint(res)\r\n\r\n# Change track\r\nsp.start_playback(uris=['spotify:track:6gdLoMygLsgktydTQ71b15'])\r\n\r\n# Change volume\r\nsp.volume(100)\r\nsleep(2)\r\nsp.volume(50)\r\nsleep(2)\r\nsp.volume(100)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 31,
+        "fields": {
+            "function": "featured_playlists(locale=None, country=None, timestamp=None, limit=20, offset=0)",
+            "parameters": "locale - The desired language, consisting of a lowercase ISO 639 language code and an uppercase ISO 3166-1 alpha-2 country code, joined by an underscore.\r\ncountry - An ISO 3166-1 alpha-2 country code.\r\ntimestamp - A timestamp in ISO 8601 format: yyyy-MM-ddTHH:mm:ss. Use this parameter to specify the user’s local time to get results tailored for that specific date and time in the day\r\nlimit - The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50\r\noffset - The index of the first item to return. Default: 0 (the first object). Use with limit to get the next set of items.",
+            "use": "Get a list of Spotify featured playlists",
+            "json": "This is empty, please add something",
+            "color": 5,
+            "code": "# shows artist info for a URN or URL\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth())\r\n\r\nresponse = sp.featured_playlists()\r\nprint(response['message'])\r\n\r\nwhile response:\r\n    playlists = response['playlists']\r\n    for i, item in enumerate(playlists['items']):\r\n        print(playlists['offset'] + i, item['name'])\r\n\r\n    if playlists['next']:\r\n        response = sp.next(playlists)\r\n    else:\r\n        response = None"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 32,
+        "fields": {
+            "function": "me()",
+            "parameters": "NA",
+            "use": "Get detailed profile information about the current user. An alias for the ‘current_user’ method.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "spotify = spotipy.Spotify(auth_manager=auth_manager)\r\n    return f'<h2>Hi {spotify.me()[\"display_name\"]}, ' \\\r\n           f'<small><a href=\"/sign_out\">[sign out]<a/></small></h2>' \\\r\n           f'<a href=\"/playlists\">my playlists</a> | ' \\\r\n           f'<a href=\"/currently_playing\">currently playing</a> | ' \\\r\n\t\t   f'<a href=\"/current_user\">me</a>' \\"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 33,
+        "fields": {
+            "function": "new_releases(country=None, limit=20, offset=0)",
+            "parameters": "country - An ISO 3166-1 alpha-2 country code.\r\nlimit - The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50\r\noffset - The index of the first item to return. Default: 0 (the first object). Use with limit to get the next set of items.",
+            "use": "Get a list of new album releases featured in Spotify",
+            "json": "This is empty, please add something",
+            "color": 1,
+            "code": "# shows artist info for a URN or URL\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth())\r\n\r\nresponse = sp.new_releases()\r\n\r\nwhile response:\r\n    albums = response['albums']\r\n    for i, item in enumerate(albums['items']):\r\n        print(albums['offset'] + i, item['name'])\r\n\r\n    if albums['next']:\r\n        response = sp.next(albums)\r\n    else:\r\n        response = None"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 34,
+        "fields": {
+            "function": "next(result)",
+            "parameters": "result - a previously returned paged result",
+            "use": "returns the next result given a paged result",
+            "json": "This is empty, please add something",
+            "color": 6,
+            "code": "def show_artist_albums(artist):\r\n    albums = []\r\n    results = sp.artist_albums(artist['id'], album_type='album')\r\n    albums.extend(results['items'])\r\n    while results['next']:\r\n        results = sp.next(results)\r\n        albums.extend(results['items'])\r\n    logger.info('Total albums: %s', len(albums))\r\n    unique = set()  # skip duplicate albums\r\n    for album in albums:\r\n        name = album['name'].lower()\r\n        if name not in unique:\r\n            logger.info('ALBUM: %s', name)\r\n            unique.add(name)\r\n            show_album_tracks(album)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 35,
+        "fields": {
+            "function": "next_track(device_id=None)",
+            "parameters": "device_id - device target for playback",
+            "use": "Skip user’s playback to next track.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 36,
+        "fields": {
+            "function": "pause_playback(device_id=None)",
+            "parameters": "device_id - device target for playback",
+            "use": "Pause user’s playback.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 37,
+        "fields": {
+            "function": "playlist(playlist_id, fields=None, market=None)",
+            "parameters": "playlist - the id of the playlist\r\nfields - which fields to return\r\nmarket - An ISO 3166-1 alpha-2 country code or the\r\nstring from_token.",
+            "use": "Gets playlist by id.",
+            "json": "This is empty, please add something",
+            "color": 5,
+            "code": "from spotipy.oauth2 import SpotifyClientCredentials\r\nimport spotipy\r\nimport json\r\n\r\nclient_credentials_manager = SpotifyClientCredentials()\r\nsp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)\r\n\r\nplaylist_id = 'spotify:user:spotifycharts:playlist:37i9dQZEVXbJiZcmkrIHGU'\r\nresults = sp.playlist(playlist_id)\r\nprint(json.dumps(results, indent=4))"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 38,
+        "fields": {
+            "function": "playlist_tracks(playlist_id, fields=None, limit=100, offset=0, market=None)",
+            "parameters": "playlist_id - the id of the playlist\r\nfields - which fields to return\r\nlimit - the maximum number of tracks to return\r\noffset - the index of the first track to return\r\nmarket - an ISO 3166-1 alpha-2 country code.",
+            "use": "Get full details of the tracks of a playlist.",
+            "json": "This is empty, please add something",
+            "color": 5,
+            "code": "# get all non-local tracks of a playlist\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport spotipy\r\n\r\n# playlist id of global top 50\r\nPlaylistExample = '37i9dQZEVXbMDoHDwVN2tF'\r\n\r\n# create spotipy client\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())\r\n\r\n# load the first 100 songs\r\ntracks = []\r\nresult = sp.playlist_tracks(PlaylistExample, additional_types=['track'])\r\ntracks.extend(result['items'])\r\n\r\n# if playlist is larger than 100 songs, continue loading it until end\r\nwhile result['next']:\r\n    result = sp.next(result)\r\n    tracks.extend(result['items'])\r\n\r\n# remove all local songs\r\ni = 0  # just for counting how many tracks are local\r\nfor item in tracks:\r\n    if item['is_local']:\r\n        tracks.remove(item)\r\n        i += 1\r\n\r\n\r\n# print result\r\nprint(\"Playlist length: \" + str(len(tracks)) + \"\\nExcluding: \" + str(i))"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 39,
+        "fields": {
+            "function": "playlist_upload_cover_image(playlist_id, image_b64)",
+            "parameters": "playlist_id - the id of the playlist\r\nimage_b64 - image data as a Base64 encoded JPEG image string\r\n(maximum payload size is 256 KB)",
+            "use": "Replace the image used to represent a specific playlist",
+            "json": "This is empty, please add something",
+            "color": 5,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 40,
+        "fields": {
+            "function": "previous(result)¶",
+            "parameters": "result - a previously returned paged result",
+            "use": "returns the previous result given a paged result",
+            "json": "This is empty, please add something",
+            "color": 6,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 41,
+        "fields": {
+            "function": "previous_track(device_id=None)",
+            "parameters": "device_id - device target for playback",
+            "use": "Skip user’s playback to previous track.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 42,
+        "fields": {
+            "function": "recommendation_genre_seeds()",
+            "parameters": "NA",
+            "use": "Get a list of genres available for the recommendations function.",
+            "json": "This is empty, please add something",
+            "color": 8,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 43,
+        "fields": {
+            "function": "recommendations(seed_artists=None, seed_genres=None, seed_tracks=None, limit=20, country=None, **kwargs)",
+            "parameters": "seed_artists - a list of artist IDs, URIs or URLs\r\nseed_tracks - a list of track IDs, URIs or URLs\r\nseed_genres - a list of genre names. Available genres for\r\nrecommendations can be found by calling recommendation_genre_seeds \r\ncountry - An ISO 3166-1 alpha-2 country code. If provided,\r\nall results will be playable in this country. \r\nlimit - The maximum number of items to return. Default: 20.\r\nMinimum: 1. Maximum: 100 \r\nmin/max/target_<attribute> - For the tuneable track\r\nattributes listed in the documentation, these values provide filters and targeting on results",
+            "use": "Get a list of recommended tracks for one to five seeds.",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "import argparse\r\nimport logging\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\n\r\n\r\nlogger = logging.getLogger('examples.artist_recommendations')\r\nlogging.basicConfig(level='INFO')\r\n\r\nclient_credentials_manager = SpotifyClientCredentials()\r\nsp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)\r\n\r\n\r\ndef get_args():\r\n    parser = argparse.ArgumentParser(description='Recommendations for the '\r\n                                     'given artist')\r\n    parser.add_argument('-a', '--artist', required=True, help='Name of Artist')\r\n    return parser.parse_args()\r\n\r\n\r\ndef get_artist(name):\r\n    results = sp.search(q='artist:' + name, type='artist')\r\n    items = results['artists']['items']\r\n    if len(items) > 0:\r\n        return items[0]\r\n    else:\r\n        return None\r\n\r\n\r\ndef show_recommendations_for_artist(artist):\r\n    results = sp.recommendations(seed_artists=[artist['id']])\r\n    for track in results['tracks']:\r\n        logger.info('Recommendation: %s - %s', track['name'],\r\n                    track['artists'][0]['name'])\r\n\r\n\r\ndef main():\r\n    args = get_args()\r\n    artist = get_artist(args.artist)\r\n    if artist:\r\n        show_recommendations_for_artist(artist)\r\n    else:\r\n        logger.error(\"Can't find that artist\", args.artist)\r\n\r\n\r\nif __name__ == '__main__':\r\n    main()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 44,
+        "fields": {
+            "function": "repeat(state, device_id=None)",
+            "parameters": "state - track, context, or off\r\ndevice_id - device target for playback",
+            "use": "Set repeat mode for playback.",
+            "json": "This is empty, please add something",
+            "color": 6,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 45,
+        "fields": {
+            "function": "search(q, limit=10, offset=0, type='track', market=None)",
+            "parameters": "q - the search query\r\nlimit - the number of items to return\r\noffset - the index of the first item to return\r\ntype - the type of item to return. One of ‘artist’, ‘album’,\r\n‘track’ or ‘playlist’ \r\nmarket - An ISO 3166-1 alpha-2 country code or the string\r\nfrom_token.",
+            "use": "searches for an item",
+            "json": "This is empty, please add something",
+            "color": 7,
+            "code": "# shows artist info for a URN or URL\r\n\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport spotipy\r\nimport sys\r\nimport pprint\r\n\r\nif len(sys.argv) > 1:\r\n    search_str = sys.argv[1]\r\nelse:\r\n    search_str = 'Radiohead'\r\n\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())\r\nresult = sp.search(search_str)\r\npprint.pprint(result)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 46,
+        "fields": {
+            "function": "seek_track(position_ms, device_id=None)",
+            "parameters": "position_ms - position in milliseconds to seek to\r\ndevice_id - device target for playback",
+            "use": "Seek to position in current track.",
+            "json": "This is empty, please add something",
+            "color": 6,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 47,
+        "fields": {
+            "function": "shuffle(state, device_id=None)",
+            "parameters": "state - true or false\r\ndevice_id - device target for playback",
+            "use": "Toggle playback shuffling.",
+            "json": "This is empty, please add something",
+            "color": 6,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 48,
+        "fields": {
+            "function": "start_playback(device_id=None, context_uri=None, uris=None, offset=None)",
+            "parameters": "device_id - device target for playback\r\ncontext_uri - spotify context uri to play\r\nuris - spotify track uris\r\noffset - offset into context by index or track",
+            "use": "Start or resume user’s playback.\r\nProvide a context_uri to start playback or a album, artist, or playlist.\r\nProvide a uris list to start playback of one or more tracks.\r\nProvide offset as {“position”: <int>} or {“uri”: “<track uri>”} to start playback at a particular offset.",
+            "json": "This is empty, please add something",
+            "color": 6,
+            "code": "import spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\nfrom pprint import pprint\r\nfrom time import sleep\r\n\r\nscope = \"user-read-playback-state,user-modify-playback-state\"\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyOAuth(scope=scope))\r\n\r\n# Shows playing devices\r\nres = sp.devices()\r\npprint(res)\r\n\r\n# Change track\r\nsp.start_playback(uris=['spotify:track:6gdLoMygLsgktydTQ71b15'])\r\n\r\n# Change volume\r\nsp.volume(100)\r\nsleep(2)\r\nsp.volume(50)\r\nsleep(2)\r\nsp.volume(100)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 49,
+        "fields": {
+            "function": "track(track_id)",
+            "parameters": "track_id - a spotify URI, URL or ID",
+            "use": "returns a single track given the track’s ID, URI or URL",
+            "json": "This is empty, please add something",
+            "color": 3,
+            "code": "# shows track info for a URN or URL\r\n\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport spotipy\r\nimport sys\r\nfrom pprint import pprint\r\n\r\nif len(sys.argv) > 1:\r\n    urn = sys.argv[1]\r\nelse:\r\n    urn = 'spotify:track:0Svkvt5I79wficMFgaqEQJ'\r\n\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())\r\n\r\ntrack = sp.track(urn)\r\npprint(track)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 50,
+        "fields": {
+            "function": "tracks(tracks, market=None)",
+            "parameters": "tracks - a list of spotify URIs, URLs or IDs\r\nmarket - an ISO 3166-1 alpha-2 country code.",
+            "use": "returns a list of tracks given a list of track IDs, URIs, or URLs",
+            "json": "This is empty, please add something",
+            "color": 3,
+            "code": "'''\r\n    usage: show_tracks.py path_of_ids\r\n    given a list of track IDs show the artist and track name\r\n'''\r\nfrom spotipy.oauth2 import SpotifyClientCredentials\r\nimport sys\r\nimport spotipy\r\n\r\nif __name__ == '__main__':\r\n    max_tracks_per_call = 50\r\n    if len(sys.argv) > 1:\r\n        file = open(sys.argv[1])\r\n    else:\r\n        file = sys.stdin\r\n    tids = file.read().split()\r\n\r\n    client_credentials_manager = SpotifyClientCredentials()\r\n    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)\r\n    for start in range(0, len(tids), max_tracks_per_call):\r\n        results = sp.tracks(tids[start: start + max_tracks_per_call])\r\n        for track in results['tracks']:\r\n            print(track['name'] + ' - ' + track['artists'][0]['name'])"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 51,
+        "fields": {
+            "function": "transfer_playback(device_id, force_play=True)",
+            "parameters": "device_id - transfer playback to this device\r\nforce_play - true: after transfer, play. false:\r\nkeep current state.",
+            "use": "Transfer playback to another device. Note that the API accepts a list of device ids, but only actually supports one.",
+            "json": "This is empty, please add something",
+            "color": 6,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 52,
+        "fields": {
+            "function": "user_follow_artists(ids=[])",
+            "parameters": "ids - a list of artist IDs",
+            "use": "Follow one or more artists",
+            "json": "This is empty, please add something",
+            "color": 2,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 53,
+        "fields": {
+            "function": "user_follow_users(ids=[])",
+            "parameters": "ids - a list of user IDs",
+            "use": "Follow one or more users Parameters:",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 54,
+        "fields": {
+            "function": "user_playlist(user, playlist_id=None, fields=None, market=None)",
+            "parameters": "NA",
+            "use": "NA",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 55,
+        "fields": {
+            "function": "user_playlist_add_tracks(user, playlist_id, tracks, position=None)¶",
+            "parameters": "user - the id of the user\r\nplaylist_id - the id of the playlist\r\ntracks - a list of track URIs, URLs or IDs\r\nposition - the position to add the tracks",
+            "use": "Adds tracks to a playlist",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "import argparse\r\nimport logging\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nlogger = logging.getLogger('examples.add_tracks_to_playlist')\r\nlogging.basicConfig(level='DEBUG')\r\nscope = 'playlist-modify-public'\r\n\r\n\r\ndef get_args():\r\n    parser = argparse.ArgumentParser(description='Adds track to user playlist')\r\n    parser.add_argument('-t', '--tids', action='append',\r\n                        required=True, help='Track ids')\r\n    parser.add_argument('-p', '--playlist', required=True,\r\n                        help='Playlist to add track to')\r\n    return parser.parse_args()\r\n\r\n\r\ndef main():\r\n    args = get_args()\r\n\r\n    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n    sp.playlist_add_tracks(args.playlist, args.tids)\r\n\r\n\r\nif __name__ == '__main__':\r\n    main()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 56,
+        "fields": {
+            "function": "user_playlist_change_details(user, playlist_id, name=None, public=None, collaborative=None, description=None)",
+            "parameters": "user - the id of the user\r\nplaylist_id - the id of the playlist\r\nname - optional name of the playlist\r\npublic - optional is the playlist public\r\ncollaborative - optional is the playlist collaborative\r\ndescription - optional description of the playlist",
+            "use": "Changes a playlist’s name and/or public/private state",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "import argparse\r\nimport logging\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nlogger = logging.getLogger('examples.change_playlist_details')\r\nlogging.basicConfig(level='DEBUG')\r\n\r\nscope = 'playlist-modify-public playlist-modify-private'\r\n\r\n\r\ndef get_args():\r\n    parser = argparse.ArgumentParser(description='Modify details of playlist')\r\n    parser.add_argument('-p', '--playlist', required=True,\r\n                        help='Playlist id to alter details')\r\n    parser.add_argument('-n', '--name', required=False,\r\n                        help='Name of playlist')\r\n    parser.add_argument('--public', action='store_true', required=False,\r\n                        help='Include param if playlist is public')\r\n    parser.add_argument('--private', action='store_false', required=False,\r\n                        default=None,\r\n                        help='Include param to make playlist is private')\r\n    parser.add_argument('-c', '--collaborative', action='store_true',\r\n                        required=False, default=None,\r\n                        help='Include param if playlist is collaborative')\r\n    parser.add_argument('-i', '--independent', action='store_false',\r\n                        required=False, default=None,\r\n                        help='Include param to make playlist non collaborative')\r\n    parser.add_argument('-d', '--description', default=None, required=False,\r\n                        help='Description of playlist')\r\n    return parser.parse_args()\r\n\r\n\r\ndef main():\r\n    args = get_args()\r\n    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n    sp.playlist_change_details(\r\n        args.playlist,\r\n        name=args.name,\r\n        public=args.public or args.private,\r\n        collaborative=args.collaborative or args.independent,\r\n        description=args.description)\r\n\r\n\r\nif __name__ == '__main__':\r\n    main()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 57,
+        "fields": {
+            "function": "user_playlist_create(user, name, public=True, description='')",
+            "parameters": "user - the id of the user\r\nname - the name of the playlist\r\npublic - is the created playlist public\r\ndescription - the description of the playlist",
+            "use": "Creates a playlist for a user",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Creates a playlist for a user\r\n\r\nimport argparse\r\nimport logging\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nlogger = logging.getLogger('examples.create_playlist')\r\nlogging.basicConfig(level='DEBUG')\r\n\r\n\r\ndef get_args():\r\n    parser = argparse.ArgumentParser(description='Creates a playlist for user')\r\n    parser.add_argument('-p', '--playlist', required=True,\r\n                        help='Name of Playlist')\r\n    parser.add_argument('-d', '--description', required=False, default='',\r\n                        help='Description of Playlist')\r\n    return parser.parse_args()\r\n\r\n\r\ndef main():\r\n    args = get_args()\r\n    scope = \"playlist-modify-public\"\r\n    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n    user_id = sp.me()['id']\r\n    sp.user_playlist_create(user_id, args.playlist)\r\n\r\n\r\nif __name__ == '__main__':\r\n    main()"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 58,
+        "fields": {
+            "function": "user_playlist_follow_playlist(playlist_owner_id, playlist_id)",
+            "parameters": "playlist_owner_id - the user id of the playlist owner\r\nplaylist_id - the id of the playlist",
+            "use": "\"user - the id of the user\r\nname - the name of the playlist\r\npublic - is the created playlist public\r\ndescription - the description of the playlist\r\n\"\t\r\n\t\"Add the current authenticated user as a follower of a playlist.\r\n\"",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 59,
+        "fields": {
+            "function": "user_playlist_is_following(playlist_owner_id, playlist_id, user_ids)",
+            "parameters": "playlist_owner_id - the user id of the playlist owner\r\nplaylist_id - the id of the playlist\r\nuser_ids - the ids of the users that you want to check to see\r\nif they follow the playlist. Maximum: 5 ids.",
+            "use": "Check to see if the given users are following the given playlist",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 60,
+        "fields": {
+            "function": "user_playlist_remove_all_occurrences_of_tracks(user, playlist_id, tracks, snapshot_id=None)",
+            "parameters": "user - the id of the user\r\nplaylist_id - the id of the playlist\r\ntracks - the list of track ids to remove from the playlist\r\nsnapshot_id - optional id of the playlist snapshot",
+            "use": "Removes all occurrences of the given tracks from the given playlist",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Removes tracks from playlist\r\nimport pprint\r\nimport sys\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\n\r\nif len(sys.argv) > 2:\r\n    playlist_id = sys.argv[2]\r\n    track_ids = sys.argv[3:]\r\nelse:\r\n    print(\"Usage: %s playlist_id track_id ...\" % (sys.argv[0]))\r\n    sys.exit()\r\n\r\nscope = 'playlist-modify-public'\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\nresults = sp.playlist_remove_all_occurrences_of_tracks(\r\n    playlist_id, track_ids)\r\npprint.pprint(results)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 61,
+        "fields": {
+            "function": "user_playlist_remove_specific_occurrences_of_tracks(user, playlist_id, tracks, snapshot_id=None)",
+            "parameters": "user - the id of the user\r\nplaylist_id - the id of the playlist\r\ntracks - an array of objects containing Spotify URIs of the\r\ntracks to remove with their current positions in the playlist. For example: [ { “uri”:”4iV5W9uYEdYUVa79Axb7Rh”, “positions”:[2] }, { “uri”:”1301WleyT98MSxVHPZCA6M”, “positions”:[7] } ] \r\nsnapshot_id - optional id of the playlist snapshot",
+            "use": "Removes all occurrences of the given tracks from the given playlist",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Removes tracks from a playlist\r\n\r\nimport pprint\r\nimport sys\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nif len(sys.argv) > 2:\r\n    playlist_id = sys.argv[1]\r\n    track_ids_and_positions = sys.argv[2:]\r\n    track_ids = []\r\n    for t_pos in sys.argv[2:]:\r\n        tid, pos = t_pos.split(',')\r\n        track_ids.append({\"uri\": tid, \"positions\": [int(pos)]})\r\nelse:\r\n    print(\r\n        \"Usage: %s playlist_id track_id,pos track_id,pos ...\" %\r\n        (sys.argv[0],))\r\n    sys.exit()\r\n\r\nscope = 'playlist-modify-public'\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\nresults = sp.playlist_remove_specific_occurrences_of_tracks(\r\n    playlist_id, track_ids)\r\npprint.pprint(results)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 62,
+        "fields": {
+            "function": "user_playlist_reorder_tracks(user, playlist_id, range_start, insert_before, range_length=1, snapshot_id=None)",
+            "parameters": "user - the id of the user\r\nplaylist_id - the id of the playlist\r\nrange_start - the position of the first track to be reordered\r\nrange_length - optional the number of tracks to be reordered\r\n(default: 1) \r\ninsert_before - the position where the tracks should be\r\ninserted \r\nsnapshot_id - optional playlist’s snapshot ID",
+            "use": "Reorder tracks in a playlist",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 63,
+        "fields": {
+            "function": "user_playlist_replace_tracks(user, playlist_id, tracks)",
+            "parameters": "user - the id of the user\r\nplaylist_id - the id of the playlist\r\ntracks - the list of track ids to add to the playlist",
+            "use": "Replace all tracks in a playlist",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Replaces all tracks in a playlist\r\n\r\nimport pprint\r\nimport sys\r\n\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nif len(sys.argv) > 3:\r\n    playlist_id = sys.argv[1]\r\n    track_ids = sys.argv[2:]\r\nelse:\r\n    print(\"Usage: %s playlist_id track_id ...\" % (sys.argv[0],))\r\n    sys.exit()\r\n\r\nscope = 'playlist-modify-public'\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))\r\n\r\nresults = sp.playlist_replace_tracks(playlist_id, track_ids)\r\npprint.pprint(results)"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 64,
+        "fields": {
+            "function": "user_playlist_tracks(user=None, playlist_id=None, fields=None, limit=100, offset=0, market=None)",
+            "parameters": "NA",
+            "use": "NA",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 65,
+        "fields": {
+            "function": "user_playlist_unfollow(user, playlist_id)",
+            "parameters": "user - the id of the user\r\nname - the name of the playlist",
+            "use": "Unfollows (deletes) a playlist for a user",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 66,
+        "fields": {
+            "function": "user_playlists(user, limit=50, offset=0)",
+            "parameters": "user - the id of the usr\r\nlimit - the number of items to return\r\noffset - the index of the first item to return",
+            "use": "Gets playlists of a user",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "# Shows a user's playlists (need to be authenticated via oauth)\r\n\r\nimport sys\r\nimport spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\n\r\nif len(sys.argv) > 1:\r\n    username = sys.argv[1]\r\nelse:\r\n    print(\"Whoops, need a username!\")\r\n    print(\"usage: python user_playlists.py [username]\")\r\n    sys.exit()\r\n\r\nsp = spotipy.Spotify(auth_manager=SpotifyOAuth())\r\n\r\nplaylists = sp.user_playlists(username)\r\n\r\nfor playlist in playlists['items']:\r\n    print(playlist['name'])"
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 67,
+        "fields": {
+            "function": "user_unfollow_artists(ids=[])",
+            "parameters": "ids - a list of artist IDs",
+            "use": "Unfollow one or more artists Parameters:",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 68,
+        "fields": {
+            "function": "user_unfollow_users(ids=[])",
+            "parameters": "ids - a list of user IDs",
+            "use": "Unfollow one or more users Parameters:",
+            "json": "This is empty, please add something",
+            "color": 4,
+            "code": "No code here :("
+        }
+    },
+    {
+        "model": "airmusic.method",
+        "pk": 69,
+        "fields": {
+            "function": "volume(volume_percent, device_id=None)",
+            "parameters": "volume_percent - volume between 0 and 100\r\ndevice_id - device target for playback",
+            "use": "Set playback volume.",
+            "json": "This is empty, please add something",
+            "color": 6,
+            "code": "import spotipy\r\nfrom spotipy.oauth2 import SpotifyOAuth\r\nfrom pprint import pprint\r\nfrom time import sleep\r\n\r\nscope = \"user-read-playback-state,user-modify-playback-state\"\r\nsp = spotipy.Spotify(client_credentials_manager=SpotifyOAuth(scope=scope))\r\n\r\n# Shows playing devices\r\nres = sp.devices()\r\npprint(res)\r\n\r\n# Change track\r\nsp.start_playback(uris=['spotify:track:6gdLoMygLsgktydTQ71b15'])\r\n\r\n# Change volume\r\nsp.volume(100)\r\nsleep(2)\r\nsp.volume(50)\r\nsleep(2)\r\nsp.volume(100)"
+        }
+    },
+    {
+        "model": "airmusic.list",
+        "pk": 1,
+        "fields": {
+            "progress": "Oops! this is empty"
+        }
+    },
+    {
+        "model": "airmusic.list",
+        "pk": 48,
+        "fields": {
+            "progress": "Oops! this is empty"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 1,
+        "fields": {
+            "action_time": "2021-06-05T08:07:08.093Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "1",
+            "object_repr": "color object (1)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 2,
+        "fields": {
+            "action_time": "2021-06-05T08:07:17.396Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "2",
+            "object_repr": "color object (2)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 3,
+        "fields": {
+            "action_time": "2021-06-05T08:07:21.066Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "3",
+            "object_repr": "color object (3)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 4,
+        "fields": {
+            "action_time": "2021-06-05T08:07:25.902Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "4",
+            "object_repr": "color object (4)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 5,
+        "fields": {
+            "action_time": "2021-06-05T08:08:55.700Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "5",
+            "object_repr": "color object (5)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 6,
+        "fields": {
+            "action_time": "2021-06-05T08:09:00.322Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "6",
+            "object_repr": "color object (6)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 7,
+        "fields": {
+            "action_time": "2021-06-05T08:09:03.358Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "7",
+            "object_repr": "color object (7)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 8,
+        "fields": {
+            "action_time": "2021-06-05T08:09:13.252Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "8",
+            "object_repr": "color object (8)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 9,
+        "fields": {
+            "action_time": "2021-06-05T08:12:18.720Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "1",
+            "object_repr": "album(album_id)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 10,
+        "fields": {
+            "action_time": "2021-06-05T08:12:46.473Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "2",
+            "object_repr": "album_tracks(album_id, limit=50, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 11,
+        "fields": {
+            "action_time": "2021-06-05T08:13:12.254Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "3",
+            "object_repr": "artist(artist_id)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 12,
+        "fields": {
+            "action_time": "2021-06-05T08:13:42.607Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "4",
+            "object_repr": "artist_albums(artist_id, album_type=None, country=None, limit=20, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 13,
+        "fields": {
+            "action_time": "2021-06-05T08:13:56.811Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "1",
+            "object_repr": "list object (1)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 14,
+        "fields": {
+            "action_time": "2021-06-05T08:14:00.302Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "2",
+            "object_repr": "list object (2)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 15,
+        "fields": {
+            "action_time": "2021-06-05T14:27:06.634Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "2",
+            "object_repr": "list object (2)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Progress\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 16,
+        "fields": {
+            "action_time": "2021-06-05T14:27:16.539Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "1",
+            "object_repr": "list object (1)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Progress\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 17,
+        "fields": {
+            "action_time": "2021-06-08T13:16:03.985Z",
+            "user": 1,
+            "content_type": 8,
+            "object_id": "3",
+            "object_repr": "list object (3)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 18,
+        "fields": {
+            "action_time": "2021-06-08T15:42:29.793Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "5",
+            "object_repr": "albums(albums)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 19,
+        "fields": {
+            "action_time": "2021-06-08T15:43:04.922Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "6",
+            "object_repr": "artist_related_artists(artist_id)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 20,
+        "fields": {
+            "action_time": "2021-06-08T15:43:40.539Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "7",
+            "object_repr": "artist_top_tracks(artist_id, country='US')",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 21,
+        "fields": {
+            "action_time": "2021-06-08T15:44:01.040Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "8",
+            "object_repr": "artists(artists)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 22,
+        "fields": {
+            "action_time": "2021-06-08T15:44:29.083Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "9",
+            "object_repr": "audio_analysis(track_id)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 23,
+        "fields": {
+            "action_time": "2021-06-08T15:44:51.094Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "10",
+            "object_repr": "audio_features(tracks=[])",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 24,
+        "fields": {
+            "action_time": "2021-06-08T15:45:17.660Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "11",
+            "object_repr": "categories(country=None, locale=None, limit=20, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 25,
+        "fields": {
+            "action_time": "2021-06-08T15:46:15.968Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "12",
+            "object_repr": "category_playlists(category_id=None, country=None, limit=20, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 26,
+        "fields": {
+            "action_time": "2021-06-08T15:46:38.971Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "13",
+            "object_repr": "current_playback(market=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 27,
+        "fields": {
+            "action_time": "2021-06-08T15:47:06.296Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "14",
+            "object_repr": "current_user()",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 28,
+        "fields": {
+            "action_time": "2021-06-08T15:47:34.731Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "15",
+            "object_repr": "current_user_followed_artists(limit=20, after=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 29,
+        "fields": {
+            "action_time": "2021-06-08T15:48:24.792Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "16",
+            "object_repr": "current_user_playing_track()",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 30,
+        "fields": {
+            "action_time": "2021-06-08T15:48:51.743Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "17",
+            "object_repr": "current_user_playlists(limit=50, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 31,
+        "fields": {
+            "action_time": "2021-06-08T15:49:17.260Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "18",
+            "object_repr": "current_user_recently_played(limit=50)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 32,
+        "fields": {
+            "action_time": "2021-06-08T15:49:44.704Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "19",
+            "object_repr": "current_user_saved_albums(limit=20, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 33,
+        "fields": {
+            "action_time": "2021-06-08T15:50:16.778Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "20",
+            "object_repr": "current_user_saved_albums_add(albums=[])",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 34,
+        "fields": {
+            "action_time": "2021-06-08T15:50:50.986Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "21",
+            "object_repr": "current_user_saved_albums_contains(albums=[])",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 35,
+        "fields": {
+            "action_time": "2021-06-08T15:51:11.791Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "22",
+            "object_repr": "current_user_saved_albums_delete(albums=[])",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 36,
+        "fields": {
+            "action_time": "2021-06-08T15:51:42.360Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "23",
+            "object_repr": "current_user_saved_tracks(limit=20, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 37,
+        "fields": {
+            "action_time": "2021-06-08T15:52:06.238Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "24",
+            "object_repr": "current_user_saved_tracks_add(tracks=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 38,
+        "fields": {
+            "action_time": "2021-06-08T15:52:29.134Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "25",
+            "object_repr": "current_user_saved_tracks_contains(tracks=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 39,
+        "fields": {
+            "action_time": "2021-06-08T15:52:53.879Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "26",
+            "object_repr": "current_user_saved_tracks_delete(tracks=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 40,
+        "fields": {
+            "action_time": "2021-06-08T15:53:15.191Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "27",
+            "object_repr": "current_user_top_artists(limit=20, offset=0, time_range='medium_term')",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 41,
+        "fields": {
+            "action_time": "2021-06-08T15:53:38.166Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "28",
+            "object_repr": "current_user_top_tracks(limit=20, offset=0, time_range='medium_term')",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 42,
+        "fields": {
+            "action_time": "2021-06-08T15:54:00.104Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "29",
+            "object_repr": "currently_playing(market=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 43,
+        "fields": {
+            "action_time": "2021-06-08T15:54:26.919Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "30",
+            "object_repr": "devices()",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 44,
+        "fields": {
+            "action_time": "2021-06-08T15:56:19.500Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "31",
+            "object_repr": "featured_playlists(locale=None, country=None, timestamp=None, limit=20, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 45,
+        "fields": {
+            "action_time": "2021-06-08T15:56:41.724Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "32",
+            "object_repr": "me()",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 46,
+        "fields": {
+            "action_time": "2021-06-08T15:57:03.099Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "33",
+            "object_repr": "new_releases(country=None, limit=20, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 47,
+        "fields": {
+            "action_time": "2021-06-08T15:57:21.617Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "34",
+            "object_repr": "next(result)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 48,
+        "fields": {
+            "action_time": "2021-06-08T15:57:45.233Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "35",
+            "object_repr": "next_track(device_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 49,
+        "fields": {
+            "action_time": "2021-06-08T15:58:10.958Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "36",
+            "object_repr": "pause_playback(device_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 50,
+        "fields": {
+            "action_time": "2021-06-08T15:58:34.552Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "37",
+            "object_repr": "playlist(playlist_id, fields=None, market=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 51,
+        "fields": {
+            "action_time": "2021-06-08T15:58:57.433Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "38",
+            "object_repr": "playlist_tracks(playlist_id, fields=None, limit=100, offset=0, market=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 52,
+        "fields": {
+            "action_time": "2021-06-08T15:59:19.242Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "39",
+            "object_repr": "playlist_upload_cover_image(playlist_id, image_b64)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 53,
+        "fields": {
+            "action_time": "2021-06-08T15:59:41.782Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "40",
+            "object_repr": "previous(result)¶",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 54,
+        "fields": {
+            "action_time": "2021-06-08T16:00:22.008Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "41",
+            "object_repr": "previous_track(device_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 55,
+        "fields": {
+            "action_time": "2021-06-08T16:00:41.427Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "42",
+            "object_repr": "recommendation_genre_seeds()",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 56,
+        "fields": {
+            "action_time": "2021-06-08T16:01:02.825Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "43",
+            "object_repr": "recommendations(seed_artists=None, seed_genres=None, seed_tracks=None, limit=20, country=None, **kwargs)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 57,
+        "fields": {
+            "action_time": "2021-06-08T16:01:37.060Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "44",
+            "object_repr": "repeat(state, device_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 58,
+        "fields": {
+            "action_time": "2021-06-08T16:01:58.291Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "45",
+            "object_repr": "search(q, limit=10, offset=0, type='track', market=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 59,
+        "fields": {
+            "action_time": "2021-06-08T16:02:28.622Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "46",
+            "object_repr": "seek_track(position_ms, device_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 60,
+        "fields": {
+            "action_time": "2021-06-08T16:02:53.549Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "47",
+            "object_repr": "shuffle(state, device_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 61,
+        "fields": {
+            "action_time": "2021-06-08T16:03:20.142Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "48",
+            "object_repr": "start_playback(device_id=None, context_uri=None, uris=None, offset=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 62,
+        "fields": {
+            "action_time": "2021-06-08T16:03:42.939Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "49",
+            "object_repr": "track(track_id)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 63,
+        "fields": {
+            "action_time": "2021-06-08T16:04:00.915Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "50",
+            "object_repr": "tracks(tracks, market=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 64,
+        "fields": {
+            "action_time": "2021-06-08T16:04:21.478Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "51",
+            "object_repr": "transfer_playback(device_id, force_play=True)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 65,
+        "fields": {
+            "action_time": "2021-06-08T16:04:43.926Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "52",
+            "object_repr": "user_follow_artists(ids=[])",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 66,
+        "fields": {
+            "action_time": "2021-06-08T16:05:10.782Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "53",
+            "object_repr": "user_follow_users(ids=[])",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 67,
+        "fields": {
+            "action_time": "2021-06-08T16:05:31.105Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "54",
+            "object_repr": "user_playlist(user, playlist_id=None, fields=None, market=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 68,
+        "fields": {
+            "action_time": "2021-06-08T16:05:53.915Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "55",
+            "object_repr": "user_playlist_add_tracks(user, playlist_id, tracks, position=None)¶",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 69,
+        "fields": {
+            "action_time": "2021-06-08T16:06:15.209Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "56",
+            "object_repr": "user_playlist_change_details(user, playlist_id, name=None, public=None, collaborative=None, description=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 70,
+        "fields": {
+            "action_time": "2021-06-08T16:06:35.624Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "57",
+            "object_repr": "user_playlist_create(user, name, public=True, description='')",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 71,
+        "fields": {
+            "action_time": "2021-06-08T16:06:56.607Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "58",
+            "object_repr": "user_playlist_follow_playlist(playlist_owner_id, playlist_id)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 72,
+        "fields": {
+            "action_time": "2021-06-08T16:07:37.219Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "59",
+            "object_repr": "user_playlist_is_following(playlist_owner_id, playlist_id, user_ids)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 73,
+        "fields": {
+            "action_time": "2021-06-08T16:08:27.727Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "60",
+            "object_repr": "user_playlist_remove_all_occurrences_of_tracks(user, playlist_id, tracks, snapshot_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 74,
+        "fields": {
+            "action_time": "2021-06-08T16:08:52.470Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "61",
+            "object_repr": "user_playlist_remove_specific_occurrences_of_tracks(user, playlist_id, tracks, snapshot_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 75,
+        "fields": {
+            "action_time": "2021-06-08T16:09:12.092Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "62",
+            "object_repr": "user_playlist_reorder_tracks(user, playlist_id, range_start, insert_before, range_length=1, snapshot_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 76,
+        "fields": {
+            "action_time": "2021-06-08T16:09:41.829Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "63",
+            "object_repr": "user_playlist_replace_tracks(user, playlist_id, tracks)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 77,
+        "fields": {
+            "action_time": "2021-06-08T16:10:01.584Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "64",
+            "object_repr": "user_playlist_tracks(user=None, playlist_id=None, fields=None, limit=100, offset=0, market=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 78,
+        "fields": {
+            "action_time": "2021-06-08T16:10:28.969Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "65",
+            "object_repr": "user_playlist_unfollow(user, playlist_id)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 79,
+        "fields": {
+            "action_time": "2021-06-08T16:10:51.773Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "66",
+            "object_repr": "user_playlists(user, limit=50, offset=0)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 80,
+        "fields": {
+            "action_time": "2021-06-08T16:11:12.691Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "67",
+            "object_repr": "user_unfollow_artists(ids=[])",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 81,
+        "fields": {
+            "action_time": "2021-06-08T16:11:37.140Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "68",
+            "object_repr": "user_unfollow_users(ids=[])",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 82,
+        "fields": {
+            "action_time": "2021-06-08T16:12:01.698Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "69",
+            "object_repr": "volume(volume_percent, device_id=None)",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 83,
+        "fields": {
+            "action_time": "2021-06-08T16:29:15.257Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "20",
+            "object_repr": "current_user_saved_albums_add(albums=[])",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 84,
+        "fields": {
+            "action_time": "2021-06-08T16:34:55.132Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "24",
+            "object_repr": "current_user_saved_tracks_add(tracks=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 85,
+        "fields": {
+            "action_time": "2021-06-08T16:36:16.249Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "55",
+            "object_repr": "user_playlist_add_tracks(user, playlist_id, tracks, position=None)¶",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 86,
+        "fields": {
+            "action_time": "2021-06-08T16:37:43.233Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "14",
+            "object_repr": "current_user()",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 87,
+        "fields": {
+            "action_time": "2021-06-08T16:38:17.307Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "16",
+            "object_repr": "current_user_playing_track()",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 88,
+        "fields": {
+            "action_time": "2021-06-08T16:39:04.429Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "17",
+            "object_repr": "current_user_playlists(limit=50, offset=0)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 89,
+        "fields": {
+            "action_time": "2021-06-08T16:39:53.247Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "32",
+            "object_repr": "me()",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 90,
+        "fields": {
+            "action_time": "2021-06-08T16:41:24.888Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "45",
+            "object_repr": "search(q, limit=10, offset=0, type='track', market=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 91,
+        "fields": {
+            "action_time": "2021-06-08T16:41:50.744Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "4",
+            "object_repr": "artist_albums(artist_id, album_type=None, country=None, limit=20, offset=0)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 92,
+        "fields": {
+            "action_time": "2021-06-08T16:43:23.494Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "2",
+            "object_repr": "album_tracks(album_id, limit=50, offset=0)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Json\", \"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 93,
+        "fields": {
+            "action_time": "2021-06-08T16:44:01.329Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "34",
+            "object_repr": "next(result)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 94,
+        "fields": {
+            "action_time": "2021-06-08T16:44:26.241Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "4",
+            "object_repr": "artist_albums(artist_id, album_type=None, country=None, limit=20, offset=0)",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 95,
+        "fields": {
+            "action_time": "2021-06-08T16:46:02.927Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "43",
+            "object_repr": "recommendations(seed_artists=None, seed_genres=None, seed_tracks=None, limit=20, country=None, **kwargs)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 96,
+        "fields": {
+            "action_time": "2021-06-08T16:47:00.801Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "43",
+            "object_repr": "recommendations(seed_artists=None, seed_genres=None, seed_tracks=None, limit=20, country=None, **kwargs)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 97,
+        "fields": {
+            "action_time": "2021-06-08T16:47:26.856Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "9",
+            "object_repr": "audio_analysis(track_id)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 98,
+        "fields": {
+            "action_time": "2021-06-08T16:47:59.257Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "10",
+            "object_repr": "audio_features(tracks=[])",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 99,
+        "fields": {
+            "action_time": "2021-06-08T16:49:07.726Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "56",
+            "object_repr": "user_playlist_change_details(user, playlist_id, name=None, public=None, collaborative=None, description=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 100,
+        "fields": {
+            "action_time": "2021-06-08T16:50:35.769Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "25",
+            "object_repr": "current_user_saved_tracks_contains(tracks=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 101,
+        "fields": {
+            "action_time": "2021-06-08T16:51:20.033Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "57",
+            "object_repr": "user_playlist_create(user, name, public=True, description='')",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 102,
+        "fields": {
+            "action_time": "2021-06-08T16:51:42.760Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "26",
+            "object_repr": "current_user_saved_tracks_delete(tracks=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 103,
+        "fields": {
+            "action_time": "2021-06-08T16:52:21.568Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "57",
+            "object_repr": "user_playlist_create(user, name, public=True, description='')",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 104,
+        "fields": {
+            "action_time": "2021-06-08T16:53:33.715Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "17",
+            "object_repr": "current_user_playlists(limit=50, offset=0)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 105,
+        "fields": {
+            "action_time": "2021-06-08T16:53:57.154Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "27",
+            "object_repr": "current_user_top_artists(limit=20, offset=0, time_range='medium_term')",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 106,
+        "fields": {
+            "action_time": "2021-06-08T16:54:17.962Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "28",
+            "object_repr": "current_user_top_tracks(limit=20, offset=0, time_range='medium_term')",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 107,
+        "fields": {
+            "action_time": "2021-06-08T16:54:45.087Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "30",
+            "object_repr": "devices()",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 108,
+        "fields": {
+            "action_time": "2021-06-08T16:55:29.199Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "69",
+            "object_repr": "volume(volume_percent, device_id=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 109,
+        "fields": {
+            "action_time": "2021-06-08T16:55:52.939Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "48",
+            "object_repr": "start_playback(device_id=None, context_uri=None, uris=None, offset=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 110,
+        "fields": {
+            "action_time": "2021-06-08T16:57:12.824Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "38",
+            "object_repr": "playlist_tracks(playlist_id, fields=None, limit=100, offset=0, market=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 111,
+        "fields": {
+            "action_time": "2021-06-08T16:57:28.126Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "38",
+            "object_repr": "playlist_tracks(playlist_id, fields=None, limit=100, offset=0, market=None)",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 112,
+        "fields": {
+            "action_time": "2021-06-08T16:57:33.924Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "34",
+            "object_repr": "next(result)",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 113,
+        "fields": {
+            "action_time": "2021-06-08T16:58:26.187Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "37",
+            "object_repr": "playlist(playlist_id, fields=None, market=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 114,
+        "fields": {
+            "action_time": "2021-06-08T16:59:32.012Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "61",
+            "object_repr": "user_playlist_remove_specific_occurrences_of_tracks(user, playlist_id, tracks, snapshot_id=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 115,
+        "fields": {
+            "action_time": "2021-06-08T16:59:57.579Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "60",
+            "object_repr": "user_playlist_remove_all_occurrences_of_tracks(user, playlist_id, tracks, snapshot_id=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 116,
+        "fields": {
+            "action_time": "2021-06-08T17:00:22.436Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "63",
+            "object_repr": "user_playlist_replace_tracks(user, playlist_id, tracks)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 117,
+        "fields": {
+            "action_time": "2021-06-08T17:00:35.319Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "60",
+            "object_repr": "user_playlist_remove_all_occurrences_of_tracks(user, playlist_id, tracks, snapshot_id=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 118,
+        "fields": {
+            "action_time": "2021-06-08T17:00:59.724Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "45",
+            "object_repr": "search(q, limit=10, offset=0, type='track', market=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 119,
+        "fields": {
+            "action_time": "2021-06-08T17:01:26.257Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "1",
+            "object_repr": "album(album_id)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 120,
+        "fields": {
+            "action_time": "2021-06-08T17:02:11.190Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "3",
+            "object_repr": "artist(artist_id)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 121,
+        "fields": {
+            "action_time": "2021-06-08T17:02:35.454Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "7",
+            "object_repr": "artist_top_tracks(artist_id, country='US')",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 122,
+        "fields": {
+            "action_time": "2021-06-08T17:04:20.980Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "28",
+            "object_repr": "current_user_top_tracks(limit=20, offset=0, time_range='medium_term')",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 123,
+        "fields": {
+            "action_time": "2021-06-08T17:04:49.121Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "31",
+            "object_repr": "featured_playlists(locale=None, country=None, timestamp=None, limit=20, offset=0)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 124,
+        "fields": {
+            "action_time": "2021-06-08T17:05:19.803Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "23",
+            "object_repr": "current_user_saved_tracks(limit=20, offset=0)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 125,
+        "fields": {
+            "action_time": "2021-06-08T17:05:46.721Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "33",
+            "object_repr": "new_releases(country=None, limit=20, offset=0)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 126,
+        "fields": {
+            "action_time": "2021-06-08T17:06:08.638Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "6",
+            "object_repr": "artist_related_artists(artist_id)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 127,
+        "fields": {
+            "action_time": "2021-06-08T17:06:29.803Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "49",
+            "object_repr": "track(track_id)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 128,
+        "fields": {
+            "action_time": "2021-06-08T17:07:39.864Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "50",
+            "object_repr": "tracks(tracks, market=None)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 129,
+        "fields": {
+            "action_time": "2021-06-08T17:09:02.786Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "4",
+            "object_repr": "artist_albums(artist_id, album_type=None, country=None, limit=20, offset=0)",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 130,
+        "fields": {
+            "action_time": "2021-06-08T17:09:18.832Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "7",
+            "object_repr": "artist_top_tracks(artist_id, country='US')",
+            "action_flag": 2,
+            "change_message": "[]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 131,
+        "fields": {
+            "action_time": "2021-06-08T17:11:00.075Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "66",
+            "object_repr": "user_playlists(user, limit=50, offset=0)",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 132,
+        "fields": {
+            "action_time": "2021-06-08T17:12:03.029Z",
+            "user": 1,
+            "content_type": 7,
+            "object_id": "22",
+            "object_repr": "current_user_saved_albums_delete(albums=[])",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Code\"]}}]"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add user",
+            "content_type": 4,
+            "codename": "add_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change user",
+            "content_type": 4,
+            "codename": "change_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete user",
+            "content_type": 4,
+            "codename": "delete_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view user",
+            "content_type": 4,
+            "codename": "view_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 5,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 5,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 5,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 5,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 6,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 6,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 6,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 6,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add method",
+            "content_type": 7,
+            "codename": "add_method"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change method",
+            "content_type": 7,
+            "codename": "change_method"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete method",
+            "content_type": 7,
+            "codename": "delete_method"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view method",
+            "content_type": 7,
+            "codename": "view_method"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add list",
+            "content_type": 8,
+            "codename": "add_list"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change list",
+            "content_type": 8,
+            "codename": "change_list"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete list",
+            "content_type": 8,
+            "codename": "delete_list"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view list",
+            "content_type": 8,
+            "codename": "view_list"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add color",
+            "content_type": 9,
+            "codename": "add_color"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change color",
+            "content_type": 9,
+            "codename": "change_color"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete color",
+            "content_type": 9,
+            "codename": "delete_color"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view color",
+            "content_type": 9,
+            "codename": "view_color"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$26LG1R6xu8Xx$LtxgTsmTmV0xqVzD5y0ukxZ1MtQo0POIg76e6vzuVbA=",
+            "last_login": "2021-06-05T08:00:32.819Z",
+            "is_superuser": true,
+            "username": "rijul",
+            "first_name": "",
+            "last_name": "",
+            "email": "errijuldahiya@gmail.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-06-05T07:50:41.611Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 1,
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 2,
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 3,
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
+            "app_label": "auth",
+            "model": "user"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 5,
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 6,
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 7,
+        "fields": {
+            "app_label": "airmusic",
+            "model": "method"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 8,
+        "fields": {
+            "app_label": "airmusic",
+            "model": "list"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 9,
+        "fields": {
+            "app_label": "airmusic",
+            "model": "color"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "t3ho5td4x430vhn9qia2h0e7t01xzg2b",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2hAdoENduvcMZGAGqRpISrsy3l2bdKHb_977LxVoXUpYu8xhYnVWJ3X43SKlh9QN8J3qrenU6jJPUW-K3mnX18byvOzu30GhXr61AQY5gnHWIwA5GYVtTjig94TZ0AgRU4xogWjwSSJZn7IRZHbWgXp_AN0tOD0:1lpREO:govs5mBqXu2Lzvt82WvXXVtpNFE-04pa3i2WJzHGXXI",
+            "expire_date": "2021-06-19T08:00:32.822Z"
+        }
+    }
+]
