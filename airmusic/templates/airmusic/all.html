@@ -1,0 +1,14 @@
+{% extends "airmusic/layout.html"%}
+{% load static %}
+{%block body%}
+    <h1 style="color: white;">Mango :(</h1>
+    
+    <ul class="list-group">
+        {% for method in queryset%}
+        <li class="list-group-item"><a href="{%url 'airmusic:page1'%}?id={{method.id}}">{{method.function}}</a></li>
+      {% endfor %}
+      </ul>
+{%endblock%}
+{% block script %}
+<script src="{% static 'airmusic/index.js' %}"></script>
+{% endblock %}

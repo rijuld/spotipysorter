@@ -1,0 +1,28 @@
+{% extends "airmusic/layout.html"%}
+{% load static %}
+{%block body%}
+<h1><span style="color: white; font-size:4vw;">Our</span> <span style="color: #1DB954; font-size:4vw;">List</span></h1>
+
+    <div class="row">
+        <div class="col-4">
+          
+          <div class="list-group" id="list-tab" role="tablist">
+            
+            <a class="list-group-item list-group-item-action active" id="{{a.id}}list" data-toggle="list" href="#{{a.id}}" role="tab" aria-controls="{{a.post.function}}">{{a.post.function}}</a>
+            {% for method in queryset%}
+            {% ifnotequal a method %}
+            <a class="list-group-item list-group-item-action" id="{{method.id}}list" data-toggle="list" href="#{{method.id}}" role="tab" aria-controls="{{method.post.function}}">{{method.post.function}}</a>
+            {% endifnotequal %}
+          {% endfor %}
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="popcorn d-flex align-items-center justify-content-center">
+            <img src="{% static 'airmusic/images/g.svg' %}" class="img-fluid">
+        </div>
+      </div>
+{%endblock%}
+{% block script %}
+<script src="{% static 'airmusic/index.js' %}"></script>
+<script src="{% static 'airmusic/page2.js' %}"></script>
+{% endblock %}

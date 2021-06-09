@@ -1,0 +1,16 @@
+{% extends "airmusic/layout.html"%}
+{% load static %}
+{%block body%}
+    <h1>The results of your search are the following</h1>
+    
+    <ul class="list-group">
+        Based on function
+        {% for method in queryset%}
+        <li class="list-group-item"><a href="{%url 'airmusic:page1'%}?id={{method.id}}">{{method.function}}</a></li>
+      {% endfor %}
+      </ul>
+     
+{%endblock%}
+{% block script %}
+<script src="{% static 'airmusic/index.js' %}"></script>
+{% endblock %}
