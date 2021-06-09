@@ -34,7 +34,6 @@ ALLOWED_HOSTS = ["0.0.0.0",'acmspotipy.herokuapp.com',"http://127.0.0.1:8000/"]
 
 INSTALLED_APPS = [
     'airmusic',
-    'livesync',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
