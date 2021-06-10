@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function add() {
     fetch(`/page1add`, { method: 'POST', body: JSON.stringify({ id: id }) })
-      .then(response => response.json()).then(result => {  });
+      .then(response => response.json()).then(result => { alert("hurray! added") });
   }
   function remove() {
     fetch(`/page1remove`, { method: 'POST', body: JSON.stringify({ id: id }) })
-      .then(response => response.json()).then(result => {  });
+      .then(response => response.json()).then(result => { alert("hurray! removed") });
   }
   function edit() {
     document.getElementById("page1edit").style.display = "none";
